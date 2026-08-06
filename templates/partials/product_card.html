@@ -1,0 +1,18 @@
+{% load static %}
+<article class="product-card">
+    <a href="{{ product.get_absolute_url }}">
+        <img src="{{ product.display_image_url }}" alt="{{ product.name }}" loading="lazy">
+        <h3>{{ product.name }}</h3>
+    </a>
+    <p class="price {% if product.is_poa %}poa{% endif %}">{{ product.display_price }}</p>
+    {% if product.is_poa %}
+        <a href="{{ product.get_absolute_url }}" class="enquire-link">Enquire on WhatsApp</a>
+    {% else %}
+        <form action="{% url 'cart:cart_add' product.id %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="quantity" value="1">
+            <input type="hidden" name="next" value="{{ request.path }}">
+            <button type="submit">Add to bag</button>
+        </form>
+    {% endif %}
+</article>

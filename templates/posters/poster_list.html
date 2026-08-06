@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Promotions — {{ SITE_NAME }}{% endblock %}
+
+{% block content %}
+<section class="posters-page">
+    <h1>Promotions</h1>
+    <p class="lead">Our latest offers and posters — same ones we post to WhatsApp status and Facebook.</p>
+    <div class="poster-grid">
+        {% for poster in posters %}
+            {% include "partials/poster_card.html" %}
+        {% empty %}
+            <p>No promotions posted yet — check back soon.</p>
+        {% endfor %}
+    </div>
+</section>
+
+{% if is_paginated %}
+<nav class="pagination">
+    {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+    {% endif %}
+    <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">Next</a>
+    {% endif %}
+</nav>
+{% endif %}
+{% endblock %}

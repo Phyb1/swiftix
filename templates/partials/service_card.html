@@ -1,0 +1,8 @@
+{% load static %}
+<article class="service-card">
+    <a href="{{ service.get_absolute_url }}">
+        <img src="{{ service.display_image_url }}" alt="{{ service.name }}" loading="lazy">
+        <h3>{{ service.name }}</h3>
+        <p>{{ service.short_description }}</p>
+    </a>
+</article>

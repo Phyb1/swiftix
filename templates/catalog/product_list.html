@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}{% if current_category %}{{ current_category.name }} — {% endif %}Shop — {{ SITE_NAME }}{% endblock %}
+
+{% block content %}
+<section class="shop">
+    <aside class="filters">
+        <a href="{% url 'catalog:product_list' %}" class="{% if not current_category %}active{% endif %}">All</a>
+        {% for category in categories %}
+            <a href="{{ category.get_absolute_url }}" class="{% if current_category.id == category.id %}active{% endif %}">
+                {{ category.name }}
+            </a>
+        {% endfor %}
+    </aside>
+
+    <div class="product-grid">
+        {% for product in products %}
+            {% include "partials/product_card.html" %}
+        {% empty %}
+            <p>No items here yet — check back soon.</p>
+        {% endfor %}
+    </div>
+</section>
+
+{% if is_paginated %}
+<nav class="pagination">
+    {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+    {% endif %}
+    <span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">Next</a>
+    {% endif %}
+</nav>
+{% endif %}
+{% endblock %}

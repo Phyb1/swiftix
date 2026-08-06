@@ -1,0 +1,57 @@
+/* Swiftix Auto admin theme */
+:root {
+    --primary: #ff7a00;
+    --primary-fg: #0a0e14;
+
+    --body-fg: #f2f2f0;
+    --body-bg: #0a0e14;
+    --body-quiet-color: #98a0ab;
+    --body-loud-color: #fff;
+
+    --header-color: #fff;
+    --header-branding-color: #ffb347;
+    --header-bg: #12171f;
+    --header-link-color: #ffb347;
+
+    --breadcrumbs-fg: #98a0ab;
+    --breadcrumbs-link-fg: #ffb347;
+    --breadcrumbs-bg: #12171f;
+
+    --link-fg: #ffb347;
+    --link-hover-color: #ff7a00;
+    --link-selected-fg: #ff7a00;
+
+    --module-bg: #12171f;
+    --module-text: #f2f2f0;
+    --module-link-color: #ffb347;
+
+    --border-color: #232b36;
+    --hairline-color: #232b36;
+
+    --button-bg: #ff7a00;
+    --button-fg: #0a0e14;
+    --button-hover-bg: #e56d00;
+    --default-button-bg: #ff7a00;
+    --default-button-hover-bg: #e56d00;
+
+    --object-tools-bg: #ff7a00;
+    --object-tools-hover-bg: #e56d00;
+
+    --darkened-bg: #0d1219;
+    --selected-bg: #1a212b;
+    --selected-row: #1a212b;
+}
+
+#header { border-bottom: 1px solid var(--border-color); }
+div.breadcrumbs { background: var(--breadcrumbs-bg); }
+
+.module h2, .module caption, .inline-group h2 {
+    background: var(--darkened-bg);
+    color: var(--header-branding-color);
+}
+
+.button, input[type=submit], input[type=button], .submit-row input, a.button {
+    border-radius: 8px;
+}
+
+#content { padding: 20px 24px; }

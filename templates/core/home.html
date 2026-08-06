@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}{{ SITE_NAME }} — Hybrid Servicing, Diagnostics & Genuine Parts{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <h1>Swiftix Auto</h1>
+    <p>Hybrid vehicle servicing, key &amp; ECU programming, advanced diagnostics, and genuine hybrid spare parts. Harare &amp; Gweru.</p>
+    <a href="{% url 'catalog:product_list' %}" class="btn">Shop Parts</a>
+    <a href="{% url 'services:service_list' %}" class="btn btn-outline">Book a Service</a>
+</section>
+
+{% if services %}
+<section class="services-preview">
+    <h2>What we do</h2>
+    <div class="service-grid">
+        {% for service in services %}
+            {% include "partials/service_card.html" %}
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
+
+<section class="categories">
+    {% for category in categories %}
+        <a href="{{ category.get_absolute_url }}" class="category-pill">{{ category.name }}</a>
+    {% endfor %}
+</section>
+
+{% if featured_products %}
+<section class="featured">
+    <h2>Featured Parts</h2>
+    <div class="product-grid">
+        {% for product in featured_products %}
+            {% include "partials/product_card.html" %}
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
+
+{% if recent_posters %}
+<section class="featured">
+    <h2>Latest Promotions</h2>
+    <div class="poster-grid">
+        {% for poster in recent_posters %}
+            {% include "partials/poster_card.html" %}
+        {% endfor %}
+    </div>
+    <p><a href="{% url 'posters:poster_list' %}">See all promotions →</a></p>
+</section>
+{% endif %}
+{% endblock %}

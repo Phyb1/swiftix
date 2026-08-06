@@ -1,0 +1,7 @@
+<article class="poster-card">
+    <img src="{{ poster.display_image_url }}" alt="{{ poster.caption }}" loading="lazy">
+    <div class="poster-caption">
+        <p>{{ poster.caption }}</p>
+        <time datetime="{{ poster.posted_date|date:'Y-m-d' }}">{{ poster.posted_date|date:"d M Y" }}</time>
+    </div>
+</article>

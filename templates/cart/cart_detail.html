@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Your bag — {{ SITE_NAME }}{% endblock %}
+
+{% block content %}
+<section class="cart">
+    <h1>Your bag</h1>
+
+    {% if cart|length == 0 %}
+        <p>Your bag is empty. <a href="{% url 'catalog:product_list' %}">Start shopping</a>.</p>
+    {% else %}
+        <table class="cart-table">
+            <thead>
+                <tr><th>Item</th><th>Qty</th><th>Subtotal</th><th></th></tr>
+            </thead>
+            <tbody>
+                {% for item in cart %}
+                <tr>
+                    <td>{{ item.product.name }}</td>
+                    <td>
+                        <form action="{% url 'cart:cart_update' item.product.id %}" method="post">
+                            {% csrf_token %}
+                            <input type="number" name="quantity" value="{{ item.quantity }}" min="1" style="width:4em">
+                            <button type="submit">Update</button>
+                        </form>
+                    </td>
+                    <td>${{ item.subtotal }}</td>
+                    <td>
+                        <form action="{% url 'cart:cart_remove' item.product.id %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit">Remove</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <p class="cart-total">Total: ${{ cart.get_total_price }}</p>
+
+        {% if whatsapp_link %}
+            <a href="{{ whatsapp_link }}" class="btn whatsapp-btn" target="_blank" rel="noopener">
+                Order via WhatsApp
+            </a>
+        {% endif %}
+    {% endif %}
+</section>
+{% endblock %}

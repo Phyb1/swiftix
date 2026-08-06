@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}About — {{ SITE_NAME }}{% endblock %}
+
+{% block content %}
+<section class="about">
+    <h1>About {{ SITE_NAME }}</h1>
+    <p>
+        Swiftix Auto Hybrid and Programming Solutions is a modern automotive
+        service provider based in Harare and Gweru, Zimbabwe, specializing in
+        hybrid vehicle servicing, key programming, advanced diagnostics, and
+        electronic control unit (ECU) programming.
+    </p>
+    <ul class="about-list">
+        <li>Vehicle diagnosis &amp; advanced fault-finding</li>
+        <li>Hybrid battery inspection, repair &amp; reconditioning</li>
+        <li>Engine tune-ups, repairs &amp; maintenance</li>
+        <li>Key &amp; ECU programming</li>
+        <li>Genuine hybrid spare parts — Honda, Toyota, Nissan</li>
+    </ul>
+    <p>
+        <strong>Harare branch:</strong> {{ BUSINESS_ADDRESS }}<br>
+        <strong>Gweru branch:</strong> {{ GWERU_ADDRESS }}
+    </p>
+    <p>
+        Reach us on <a href="tel:{{ BUSINESS_PHONE_DISPLAY|cut:' ' }}">{{ BUSINESS_PHONE_DISPLAY }}</a>
+        or <a href="https://wa.me/{{ WHATSAPP_ORDER_NUMBER }}" target="_blank" rel="noopener">WhatsApp</a>.
+    </p>
+</section>
+{% endblock %}

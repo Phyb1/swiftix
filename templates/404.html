@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}Page not found — {{ SITE_NAME }}{% endblock %}
+
+{% block content %}
+<section class="error-page">
+    <h1>404</h1>
+    <p>That page doesn't exist — it may have been moved, or the link's a typo.</p>
+    <a href="{% url 'core:home' %}" class="btn">Back to home</a>
+    <a href="https://wa.me/{{ WHATSAPP_ORDER_NUMBER }}" class="btn btn-outline" target="_blank" rel="noopener">
+        Message us on WhatsApp
+    </a>
+</section>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}{{ service.name }} — {{ SITE_NAME }}{% endblock %}
+
+{% block content %}
+<section class="product-detail">
+    <img src="{{ service.display_image_url }}" alt="{{ service.name }}">
+    <div class="product-info">
+        <h1>{{ service.name }}</h1>
+        <p class="description">{{ service.description|default:service.short_description }}</p>
+        {% if whatsapp_link %}
+            <a href="{{ whatsapp_link }}" class="btn whatsapp-btn" target="_blank" rel="noopener">
+                Request a quote on WhatsApp
+            </a>
+        {% else %}
+            <p class="out-of-stock">
+                WhatsApp isn't available right now — call {{ BUSINESS_PHONE_DISPLAY }} or
+                email <a href="mailto:{{ BUSINESS_EMAIL }}">{{ BUSINESS_EMAIL }}</a> for a quote.
+            </p>
+        {% endif %}
+        <a href="{% url 'services:service_list' %}">Back to Services</a>
+    </div>
+</section>
+{% endblock %}

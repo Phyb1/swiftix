@@ -1,0 +1,69 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{{ SITE_NAME }}{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon-16x16.png' %}">
+    <link rel="icon" href="{% static 'favicon.ico' %}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'apple-touch-icon.png' %}">
+    <meta name="theme-color" content="#0a0e14">
+</head>
+<body>
+    <header class="site-header">
+        <a href="{% url 'core:home' %}" class="brand">
+            <span>Swiftix<em>Auto</em></span>
+        </a>
+        <nav class="main-nav">
+            <a href="{% url 'catalog:product_list' %}">Parts</a>
+            <a href="{% url 'services:service_list' %}">Services</a>
+            <a href="{% url 'posters:poster_list' %}">Promotions</a>
+            <a href="{% url 'core:about' %}">About</a>
+            <a href="{% url 'cart:cart_detail' %}" class="cart-link">
+                Bag
+                {% if request.session.cart %}
+                    <span class="cart-badge">{{ request.session.cart|length }}</span>
+                {% endif %}
+            </a>
+        </nav>
+    </header>
+
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li class="message {{ message.tags }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <main class="site-main">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-grid">
+            <div>
+                <h3>{{ SITE_NAME }}</h3>
+                <p>Harare: {{ BUSINESS_ADDRESS }}</p>
+                <p>Gweru: {{ GWERU_ADDRESS }}</p>
+            </div>
+            <div>
+                <h3>Contact</h3>
+                <p><a href="tel:{{ BUSINESS_PHONE_DISPLAY|cut:' ' }}">{{ BUSINESS_PHONE_DISPLAY }}</a></p>
+                <p><a href="mailto:{{ BUSINESS_EMAIL }}">{{ BUSINESS_EMAIL }}</a></p>
+                <p><a href="https://wa.me/{{ WHATSAPP_ORDER_NUMBER }}" target="_blank" rel="noopener">Chat on WhatsApp</a></p>
+            </div>
+            <div>
+                <h3>Follow</h3>
+                <p><a href="{{ FACEBOOK_URL }}" target="_blank" rel="noopener">Facebook</a></p>
+                <p><a href="{{ INSTAGRAM_URL }}" target="_blank" rel="noopener">Instagram</a></p>
+            </div>
+        </div>
+        <p class="copyright">&copy; {% now "Y" %} {{ SITE_NAME }}. Always open.</p>
+    </footer>
+</body>
+</html>

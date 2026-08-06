@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Services — {{ SITE_NAME }}{% endblock %}
+
+{% block content %}
+<section class="services-page">
+    <h1>Our Services</h1>
+    <p class="lead">Installation, repair, and supply — all backed by a quote before any work starts.</p>
+    <div class="service-grid">
+        {% for service in services %}
+            {% include "partials/service_card.html" %}
+        {% empty %}
+            <p>Services coming soon — check back shortly.</p>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}
