@@ -1,42 +1,64 @@
 {% extends "base.html" %}
+{% load static %}
 
-{% block title %}{{ SITE_NAME }} — Hybrid Servicing, Diagnostics & Genuine Parts{% endblock %}
+{% block title %}{{ SITE_NAME }} — Hybrid Servicing, Diagnostics & Key/ECU Programming{% endblock %}
 
 {% block content %}
 <section class="hero">
-    <h1>Swiftix Auto</h1>
-    <p>Hybrid vehicle servicing, key &amp; ECU programming, advanced diagnostics, and genuine hybrid spare parts. Harare &amp; Gweru.</p>
-    <a href="{% url 'catalog:product_list' %}" class="btn">Shop Parts</a>
-    <a href="{% url 'services:service_list' %}" class="btn btn-outline">Book a Service</a>
-</section>
-
-{% if services %}
-<section class="services-preview">
-    <h2>What we do</h2>
-    <div class="service-grid">
-        {% for service in services %}
-            {% include "partials/service_card.html" %}
-        {% endfor %}
+    <div class="hero-content">
+        <h1>Swiftix Auto</h1>
+        <p>
+            Hybrid vehicle servicing, key &amp; ECU programming, and advanced
+            diagnostics — Harare &amp; Gweru.
+        </p>
+        <div class="hero-actions">
+            <a href="{% url 'services:service_list' %}" class="btn">Book a Service</a>
+            <a href="tel:0781332627" class="btn btn-outline">Call Us</a>
+        </div>
+    </div>
+    <div class="hero-media">
+        <img
+            src="{% static 'images/hero-hybrid.jpg' %}"
+            alt="Hybrid vehicle diagnostics at Swiftix Auto"
+            loading="eager"
+            width="640"
+            height="480"
+        >
     </div>
 </section>
-{% endif %}
 
-<section class="categories">
-    {% for category in categories %}
-        <a href="{{ category.get_absolute_url }}" class="category-pill">{{ category.name }}</a>
-    {% endfor %}
-</section>
-
-{% if featured_products %}
-<section class="featured">
-    <h2>Featured Parts</h2>
-    <div class="product-grid">
-        {% for product in featured_products %}
-            {% include "partials/product_card.html" %}
-        {% endfor %}
+<section class="highlights">
+    <div class="highlight-card">
+        <span class="highlight-icon">🔋</span>
+        <h3>Hybrid Servicing</h3>
+        <p>Battery health checks, hybrid drivetrain maintenance, and genuine-standard care.</p>
+    </div>
+    <div class="highlight-card">
+        <span class="highlight-icon">🔑</span>
+        <h3>Key &amp; ECU Programming</h3>
+        <p>Lost keys, spare keys, and ECU reprogramming handled on-site.</p>
+    </div>
+    <div class="highlight-card">
+        <span class="highlight-icon">🩺</span>
+        <h3>Advanced Diagnostics</h3>
+        <p>Full computerized diagnostics to pinpoint faults fast and accurately.</p>
     </div>
 </section>
-{% endif %}
+
+<section class="trust-strip">
+    <div class="trust-item">
+        <strong>Harare &amp; Gweru</strong>
+        <span>Two locations</span>
+    </div>
+    <div class="trust-item">
+        <strong>Hybrid Specialists</strong>
+        <span>Dedicated hybrid expertise</span>
+    </div>
+    <div class="trust-item">
+        <strong>Fast Turnaround</strong>
+        <span>Diagnostics while you wait</span>
+    </div>
+</section>
 
 {% if recent_posters %}
 <section class="featured">
@@ -49,4 +71,15 @@
     <p><a href="{% url 'posters:poster_list' %}">See all promotions →</a></p>
 </section>
 {% endif %}
+
+<section class="cta-band">
+    <div>
+        <h2>Need your hybrid looked at?</h2>
+        <p>Chat to us on WhatsApp or call the workshop directly.</p>
+    </div>
+    <div class="cta-band-actions">
+        <a href="https://wa.me/263781332627" class="btn whatsapp-btn">WhatsApp Us</a>
+        <a href="tel:0781332627" class="btn btn-outline">078 133 2627</a>
+    </div>
+</section>
 {% endblock %}
