@@ -17,31 +17,20 @@
         </div>
     </div>
     <div class="hero-media">
-        <img
-            src="{% static 'images/hero-hybrid.jpg' %}"
-            alt="Hybrid vehicle diagnostics at Swiftix Auto"
-            loading="eager"
-            width="640"
-            height="480"
-        >
-    </div>
-</section>
-
-<section class="highlights">
-    <div class="highlight-card">
-        <span class="highlight-icon">🔋</span>
-        <h3>Hybrid Servicing</h3>
-        <p>Battery health checks, hybrid drivetrain maintenance, and genuine-standard care.</p>
-    </div>
-    <div class="highlight-card">
-        <span class="highlight-icon">🔑</span>
-        <h3>Key &amp; ECU Programming</h3>
-        <p>Lost keys, spare keys, and ECU reprogramming handled on-site.</p>
-    </div>
-    <div class="highlight-card">
-        <span class="highlight-icon">🩺</span>
-        <h3>Advanced Diagnostics</h3>
-        <p>Full computerized diagnostics to pinpoint faults fast and accurately.</p>
+        <div class="carousel" data-carousel aria-roledescription="carousel" aria-label="Our work">
+            <div class="carousel-track" data-carousel-track>
+                <img src="{% static 'images/hybrid-system-programming.jpg' %}" alt="Hybrid system programming at Swiftix Auto" loading="eager">
+                <img src="{% static 'images/hybrid-battery-repair.jpg' %}" alt="Hybrid battery repair at Swiftix Auto" loading="lazy">
+                <img src="{% static 'images/gearbox-repair-2.jpg' %}" alt="Gearbox repair at Swiftix Auto" loading="lazy">
+                <img src="{% static 'images/transmission-gearbox-repair.jpg' %}" alt="Transmission and gearbox repair at Swiftix Auto" loading="lazy">
+                <img src="{% static 'images/car-wiring-and-electrials.jpg' %}" alt="Car wiring and electrical diagnostics at Swiftix Auto" loading="lazy">
+                <img src="{% static 'images/car-repair-callout-service.jpg' %}" alt="Car repair callout service by Swiftix Auto" loading="lazy">
+                <img src="{% static 'images/car-repair.jpg' %}" alt="General car repair at Swiftix Auto" loading="lazy">
+            </div>
+            <button type="button" class="carousel-btn carousel-prev" data-carousel-prev aria-label="Previous slide">&#8249;</button>
+            <button type="button" class="carousel-btn carousel-next" data-carousel-next aria-label="Next slide">&#8250;</button>
+            <div class="carousel-dots" data-carousel-dots></div>
+        </div>
     </div>
 </section>
 
@@ -60,17 +49,54 @@
     </div>
 </section>
 
-{% if recent_posters %}
-<section class="featured">
-    <h2>Latest Promotions</h2>
-    <div class="poster-grid">
-        {% for poster in recent_posters %}
-            {% include "partials/poster_card.html" %}
-        {% endfor %}
+<section class="gallery">
+    <h2>What We Do</h2>
+    <div class="gallery-grid">
+        <div class="gallery-card">
+            <img src="{% static 'images/hybrid-battery-repair.jpg' %}" alt="Hybrid battery repair" loading="lazy">
+            <div class="card-body">
+                <h3>Hybrid Battery Repair</h3>
+                <p>Battery health checks, hybrid drivetrain maintenance, and genuine-standard care.</p>
+            </div>
+        </div>
+        <div class="gallery-card">
+            <img src="{% static 'images/hybrid-system-programming.jpg' %}" alt="Hybrid system programming" loading="lazy">
+            <div class="card-body">
+                <h3>Key &amp; ECU Programming</h3>
+                <p>Lost keys, spare keys, and ECU reprogramming handled on-site.</p>
+            </div>
+        </div>
+        <div class="gallery-card">
+            <img src="{% static 'images/transmission-gearbox-repair.jpg' %}" alt="Transmission and gearbox repair" loading="lazy">
+            <div class="card-body">
+                <h3>Transmission &amp; Gearbox Repair</h3>
+                <p>Full transmission and gearbox diagnostics, repair, and rebuilds.</p>
+            </div>
+        </div>
+        <div class="gallery-card">
+            <img src="{% static 'images/car-wiring-and-electrials.jpg' %}" alt="Car wiring and electrical repair" loading="lazy">
+            <div class="card-body">
+                <h3>Wiring &amp; Electricals</h3>
+                <p>Auto electrical fault-finding, wiring repairs, and full diagnostic checks.</p>
+            </div>
+        </div>
+        <div class="gallery-card">
+            <img src="{% static 'images/car-repair-callout-service.jpg' %}" alt="Car repair callout service" loading="lazy">
+            <div class="card-body">
+                <h3>Callout Service</h3>
+                <p>On-site callout support when your vehicle can't make it to the workshop.</p>
+            </div>
+        </div>
+        <div class="gallery-card">
+            <img src="{% static 'images/car-repair.jpg' %}" alt="General car repair" loading="lazy">
+            <div class="card-body">
+                <h3>General Car Repair</h3>
+                <p>General mechanical repairs and maintenance for all vehicle types.</p>
+            </div>
+        </div>
     </div>
-    <p><a href="{% url 'posters:poster_list' %}">See all promotions →</a></p>
 </section>
-{% endif %}
+
 
 <section class="cta-band">
     <div>
@@ -82,4 +108,6 @@
         <a href="tel:0781332627" class="btn btn-outline">078 133 2627</a>
     </div>
 </section>
+
+<script src="{% static 'js/carousel.js' %}" defer></script>
 {% endblock %}

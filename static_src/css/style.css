@@ -108,6 +108,93 @@ a { color: var(--color-accent-2); }
     border: 1px solid var(--color-border);
 }
 
+.carousel {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius);
+    border: 1px solid var(--color-border);
+}
+
+.carousel-track {
+    display: flex;
+    transition: transform 0.5s ease;
+}
+
+.carousel-track img {
+    flex-shrink: 0;
+    height: 340px;
+    object-fit: cover;
+    display: block;
+    border: none;
+    border-radius: 0;
+}
+
+.carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 2.2rem;
+    height: 2.2rem;
+    border: none;
+    border-radius: 50%;
+    background: rgba(10, 14, 20, 0.55);
+    color: var(--color-text);
+    font-size: 1.4rem;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+.carousel-btn:hover { background: var(--color-accent); color: #0a0e14; }
+.carousel-prev { left: 0.6rem; }
+.carousel-next { right: 0.6rem; }
+
+.carousel-dots {
+    position: absolute;
+    bottom: 0.7rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 0.4rem;
+}
+
+.carousel-dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.4);
+    cursor: pointer;
+}
+
+.carousel-dot.active { background: var(--color-accent); }
+
+.gallery { margin-bottom: 2rem; }
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1.25rem;
+}
+
+.gallery-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.gallery-card:hover { transform: translateY(-3px); border-color: var(--color-accent); }
+.gallery-card img { width: 100%; aspect-ratio: 4/3; object-fit: cover; display: block; }
+.gallery-card .card-body { padding: 0.9rem 1rem 1.1rem; }
+.gallery-card h3 { margin: 0 0 0.4rem; font-size: 1rem; color: var(--color-accent-2); }
+.gallery-card p { margin: 0; color: var(--color-muted); font-size: 0.88rem; }
+
 .btn {
     display: inline-block;
     background: var(--color-accent);
@@ -128,28 +215,6 @@ a { color: var(--color-accent-2); }
     color: var(--color-accent-2);
 }
 .btn-outline:hover { background: var(--color-accent-2); color: #0a0e14; }
-
-.highlights {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1.25rem;
-    margin-bottom: 2rem;
-}
-
-.highlight-card {
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius);
-    padding: 1.5rem;
-    transition: border-color 0.15s ease, transform 0.15s ease;
-}
-
-.highlight-card:hover { border-color: var(--color-accent); transform: translateY(-3px); }
-
-.highlight-icon { font-size: 1.6rem; display: block; margin-bottom: 0.6rem; }
-
-.highlight-card h3 { margin: 0 0 0.4rem; color: var(--color-accent-2); font-size: 1.05rem; }
-.highlight-card p { margin: 0; color: var(--color-muted); font-size: 0.9rem; }
 
 .trust-strip {
     display: flex;
@@ -389,4 +454,6 @@ a { color: var(--color-accent-2); }
     .trust-item { align-items: center; }
     .cta-band { flex-direction: column; text-align: center; }
     .cta-band-actions { justify-content: center; }
+    .carousel-track img { height: 220px; }
+    .carousel-btn { width: 1.9rem; height: 1.9rem; font-size: 1.2rem; }
 }

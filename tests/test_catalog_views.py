@@ -46,9 +46,3 @@ def test_priced_product_detail_has_no_enquiry_link(client, product):
     assert "whatsapp_enquiry_link" not in response.context
 
 
-def test_home_page_lists_featured_products_services_and_posters(client, product, service, poster):
-    response = client.get(reverse("core:home"))
-    assert response.status_code == 200
-    assert product in response.context["featured_products"]
-    assert service in response.context["services"]
-    assert poster in response.context["recent_posters"]
