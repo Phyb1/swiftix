@@ -1,0 +1,16 @@
+{% if branches %}
+<div class="branch-map-widget">
+    {% if pins %}
+        <div id="branch-map" class="branch-map" aria-label="Map of our branches"></div>
+        {{ pins|json_script:"branch-map-pins" }}
+    {% endif %}
+    <ul class="branch-list">
+        {% for branch in branches %}
+        <li class="branch-item">
+            <strong>{{ branch.name }}</strong> — {{ branch.address }}
+            <a href="{{ branch.get_directions_url }}" target="_blank" rel="noopener">Get directions</a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}

@@ -22,6 +22,7 @@ INSTALLED_APPS = [
     "apps.posters",
     "apps.cart",
     "apps.core",
+    "apps.locations",
 ]
 
 MIDDLEWARE = [

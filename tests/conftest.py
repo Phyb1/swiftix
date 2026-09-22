@@ -1,6 +1,7 @@
 import pytest
 
 from apps.catalog.models import Category, Product
+from apps.locations.models import Branch
 from apps.posters.models import Poster
 from apps.services.models import Service
 
@@ -80,4 +81,34 @@ def inactive_poster(db):
         caption="Expired promo",
         posted_date="2026-01-01",
         is_active=False,
+    )
+
+
+@pytest.fixture
+def branch_with_coordinates(db):
+    return Branch.objects.create(
+        name="Harare branch",
+        address="No. 1 Tourle Rd, New Ardbennie, Southerton, Harare, Zimbabwe",
+        latitude="-17.858000",
+        longitude="31.017000",
+        order=1,
+    )
+
+
+@pytest.fixture
+def branch_without_coordinates(db):
+    return Branch.objects.create(
+        name="Gweru branch",
+        address="No. 6052, 58 Street, Shamrock, Gweru, Zimbabwe",
+        order=2,
+    )
+
+
+@pytest.fixture
+def inactive_branch(db):
+    return Branch.objects.create(
+        name="Closed branch",
+        address="Old premises, Bulawayo, Zimbabwe",
+        is_active=False,
+        order=3,
     )
