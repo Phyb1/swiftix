@@ -15,7 +15,8 @@ class Migration(migrations.Migration):
                 blank=True,
                 help_text=(
                     "Optional screenshot/photo showing this branch's "
-                    "location (e.g. a Google Maps screenshot). Leave "
+                    "location (e.g. a Google Maps screenshot). "
+                    "Automatically resized/compressed on upload. Leave "
                     "blank to show just the directions button."
                 ),
                 null=True,

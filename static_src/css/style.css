@@ -434,6 +434,7 @@ a { color: var(--color-accent-2); }
 }
 
 .branch-card {
+    min-width: 0;
     border: 1px solid var(--color-border);
     border-radius: var(--radius);
     background: var(--color-surface-alt);
@@ -443,6 +444,7 @@ a { color: var(--color-accent-2); }
 .branch-map-image {
     display: block;
     width: 100%;
+    max-width: 100%;
     height: 180px;
     object-fit: cover;
 }

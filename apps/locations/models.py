@@ -1,6 +1,16 @@
+import io
+import os
+
+from django.core.files.base import ContentFile
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.utils.http import urlencode
+from PIL import Image
+
+# Uploaded map_image files are downscaled/re-encoded to keep page weight
+# reasonable for visitors on mobile data.
+MAP_IMAGE_MAX_WIDTH = 1400
+MAP_IMAGE_QUALITY = 85
 
 
 class Branch(models.Model):
@@ -35,8 +45,9 @@ class Branch(models.Model):
         upload_to="branches/", blank=True, null=True,
         help_text=(
             "Optional screenshot/photo showing this branch's location "
-            "(e.g. a Google Maps screenshot). Leave blank to show just "
-            "the directions button."
+            "(e.g. a Google Maps screenshot). Automatically resized/"
+            "compressed on upload. Leave blank to show just the "
+            "directions button."
         ),
     )
     latitude = models.DecimalField(
@@ -74,3 +85,30 @@ class Branch(models.Model):
         link still works before anyone has filled in lat/lng."""
         destination = f"{self.latitude},{self.longitude}" if self.has_coordinates else self.address
         return "https://www.google.com/maps/dir/?" + urlencode({"api": "1", "destination": destination})
+
+    def save(self, *args, **kwargs):
+        # `_committed` is False only for a file newly assigned this save
+        # (a fresh upload) — an already-stored file being re-saved because
+        # some other field changed has `_committed=True` and is left
+        # alone, so editing e.g. the phone number doesn't silently
+        # re-compress (and re-degrade) the image on every admin save.
+        if self.map_image and not self.map_image._committed:
+            self.map_image = self._compressed_map_image()
+        super().save(*args, **kwargs)
+
+    def _compressed_map_image(self):
+        """Downscale to MAP_IMAGE_MAX_WIDTH and re-encode as JPEG so a
+        full-resolution phone screenshot doesn't ship to every visitor at
+        full size — the card only ever displays this at a few hundred px
+        wide anyway."""
+        image = Image.open(self.map_image)
+        image = image.convert("RGB")  # JPEG has no alpha channel
+        if image.width > MAP_IMAGE_MAX_WIDTH:
+            ratio = MAP_IMAGE_MAX_WIDTH / float(image.width)
+            new_height = round(image.height * ratio)
+            image = image.resize((MAP_IMAGE_MAX_WIDTH, new_height), Image.Resampling.LANCZOS)
+
+        buffer = io.BytesIO()
+        image.save(buffer, format="JPEG", quality=MAP_IMAGE_QUALITY, optimize=True)
+        new_name = os.path.splitext(self.map_image.name)[0] + ".jpg"
+        return ContentFile(buffer.getvalue(), name=new_name)

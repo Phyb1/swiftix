@@ -1,6 +1,11 @@
+import io
+
 import pytest
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.urls import reverse
+from PIL import Image
+
+from apps.locations.models import MAP_IMAGE_MAX_WIDTH
 
 pytestmark = pytest.mark.django_db
 
@@ -11,6 +16,15 @@ _ONE_PIXEL_PNG = (
     b"\x08\x06\x00\x00\x00\x1f\x15\xc4\x89\x00\x00\x00\nIDATx\x9cc\x00\x01"
     b"\x00\x00\x05\x00\x01\r\n-\xb4\x00\x00\x00\x00IEND\xaeB`\x82"
 )
+
+
+def _uploaded_image(width, height):
+    """A real (non-trivial) in-memory PNG upload of the given size, for
+    exercising the resize/compress logic in Branch.save()."""
+    buffer = io.BytesIO()
+    Image.new("RGB", (width, height), color=(10, 20, 30)).save(buffer, format="PNG")
+    buffer.seek(0)
+    return SimpleUploadedFile("shot.png", buffer.read(), content_type="image/png")
 
 
 def test_branch_str(branch_with_coordinates):
@@ -100,3 +114,37 @@ def test_about_page_directions_is_styled_as_a_button(client, branch_with_coordin
 def test_about_page_directions_links_present(client, branch_with_coordinates):
     response = client.get(reverse("core:about"))
     assert b"maps/dir/?api=1&amp;destination=-17.858" in response.content
+
+
+def test_oversized_map_image_is_downscaled_and_recompressed(branch_without_coordinates):
+    branch_without_coordinates.map_image = _uploaded_image(2400, 1200)
+    branch_without_coordinates.save()
+
+    with Image.open(branch_without_coordinates.map_image) as saved:
+        assert saved.width == MAP_IMAGE_MAX_WIDTH
+        assert saved.height == 700  # 1200 * (1400/2400), aspect ratio preserved
+        assert saved.format == "JPEG"
+
+
+def test_small_map_image_is_not_upscaled(branch_without_coordinates):
+    branch_without_coordinates.map_image = _uploaded_image(400, 300)
+    branch_without_coordinates.save()
+
+    with Image.open(branch_without_coordinates.map_image) as saved:
+        assert saved.width == 400
+        assert saved.height == 300
+        assert saved.format == "JPEG"  # still re-encoded, just not resized
+
+
+def test_resaving_branch_without_a_new_upload_does_not_recompress(branch_without_coordinates):
+    branch_without_coordinates.map_image = _uploaded_image(2400, 1200)
+    branch_without_coordinates.save()
+    stored_name = branch_without_coordinates.map_image.name
+
+    # Editing an unrelated field and saving again must not re-touch the
+    # already-stored image (which would silently degrade it a little more
+    # on every admin save).
+    branch_without_coordinates.phone = "263771111111"
+    branch_without_coordinates.save()
+
+    assert branch_without_coordinates.map_image.name == stored_name
