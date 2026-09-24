@@ -1,7 +1,7 @@
 /**
  * Renders pins (from the locations app's branch_map_widget template tag)
- * onto a Leaflet/OpenStreetMap map. Self-wiring: no-ops if the page has
- * no #branch-map element, so it's safe to load on any page.
+ * onto a Leaflet map. Self-wiring: no-ops if the page has no #branch-map
+ * element, so it's safe to load on any page.
  */
 (function () {
     "use strict";
@@ -19,9 +19,13 @@
         }
 
         var map = L.map(mapEl, { scrollWheelZoom: false });
-        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        // CARTO's basemaps (not OSM's raw tile.openstreetmap.org demo
+        // server) — OSM's own server enforces a Referer allowlist meant to
+        // block exactly this kind of embedded, production use, which is
+        // why tiles loaded fine when visited directly but not on the page.
+        L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", {
             maxZoom: 19,
-            attribution: "&copy; OpenStreetMap contributors",
+            attribution: "&copy; OpenStreetMap contributors &copy; CARTO",
         }).addTo(map);
 
         var markers = pins.map(function (pin) {
