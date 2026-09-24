@@ -4,12 +4,18 @@ from django.utils.http import urlencode
 
 
 class Branch(models.Model):
-    """A physical business location shown on the interactive contact map.
+    """A physical business location shown on the About page.
 
     Deliberately generic — no Swiftix-specific fields — so this whole app
-    (model, admin, template tag, JS, CSS) can be copied into other PHYB
-    client projects as-is. Coordinates are optional: a branch without them
-    still lists with a working directions link, it just won't get a pin.
+    (model, admin, template tag, CSS) can be copied into other PHYB client
+    projects as-is. Location is shown as an admin-uploaded static image
+    (a screenshot from any maps app) rather than a live embedded map: two
+    different free tile providers (OSM's demo server, CARTO's legacy
+    basemaps) both turned out to block/gate exactly this kind of embedded
+    production use, and a static image + a real directions link is more
+    reliable than chasing a third free tier. Coordinates are still
+    optional and, when present, make the directions link open a precise
+    pin instead of a text-address search.
     """
 
     name = models.CharField(max_length=100, help_text="e.g. 'Harare branch'.")
@@ -25,12 +31,22 @@ class Branch(models.Model):
             "Leave blank to use the site's main WhatsApp number."
         ),
     )
+    map_image = models.ImageField(
+        upload_to="branches/", blank=True, null=True,
+        help_text=(
+            "Optional screenshot/photo showing this branch's location "
+            "(e.g. a Google Maps screenshot). Leave blank to show just "
+            "the directions button."
+        ),
+    )
     latitude = models.DecimalField(
         max_digits=9, decimal_places=6, null=True, blank=True,
         validators=[MinValueValidator(-90), MaxValueValidator(90)],
         help_text=(
-            "In Google Maps: long-press the exact spot on the map, then "
-            "copy the first number shown at the bottom of the screen."
+            "Optional — makes the directions button open a precise pin "
+            "instead of a text search. In Google Maps: long-press the "
+            "exact spot on the map, then copy the first number shown at "
+            "the bottom of the screen."
         ),
     )
     longitude = models.DecimalField(

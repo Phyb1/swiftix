@@ -6,6 +6,14 @@ from apps.posters.models import Poster
 from apps.services.models import Service
 
 
+@pytest.fixture(autouse=True)
+def _media_root(settings, tmp_path):
+    # Any test that uploads a file (e.g. Branch.map_image) writes through
+    # here instead of the real project media/ folder, so test runs never
+    # leave stray files behind on disk.
+    settings.MEDIA_ROOT = tmp_path
+
+
 @pytest.fixture
 def category(db):
     return Category.objects.create(name="Computer Boxes", order=1)
